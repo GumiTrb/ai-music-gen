@@ -1,0 +1,17 @@
+# данные не храним в git (скачиваются скриптом)
+/data/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# прочее
+.vscode/
+.idea/
+*.wav
+.DS_Store

@@ -1,0 +1,36 @@
+# Данные: ADL Piano MIDI.
+# Группировка жанров выбрана по EDA (неделя 1): мелкие жанры объединены
+# в 7 крупных классов + "unknown" (папка Unknown датасета, жанр не размечен).
+dataset_url: https://raw.githubusercontent.com/lucasnfe/adl-piano-midi/master/midi/adl-piano-midi.zip
+raw_zip: data/raw/adl-piano-midi.zip
+processed_dir: data/processed
+
+genre_map:
+  Classical: classical
+  Rock: rock
+  Pop: pop
+  Rap: pop
+  Electronic: pop
+  Reggae: pop
+  Children: pop
+  Jazz: jazz
+  Blues: jazz
+  Soul: jazz
+  Soundtracks: soundtrack
+  Ambient: soundtrack
+  World: latin_world
+  Latin: latin_world
+  Country: country_folk
+  Folk: country_folk
+  Religious: country_folk
+  Unknown: unknown
+
+genres: [classical, rock, pop, jazz, soundtrack, latin_world, country_folk, unknown]
+
+filters:
+  only_four_four: true   # сетка REMI рассчитана на 4/4; файлы без размера считаем 4/4
+  min_bars: 8
+  min_notes: 64
+  max_bars: 400          # отсекаем аномально длинные файлы
+  min_bpm: 30
+  max_bpm: 260
