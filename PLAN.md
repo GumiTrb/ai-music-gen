@@ -48,8 +48,8 @@
 - **темп и длина:** считаются по MIDI напрямую и сравниваются с заданными.
 
 ### Фреймворк и где обучать
-- **PyTorch**. Код живёт в репозитории как обычный Python-пакет со скриптами и YAML-конфигами; ноутбуки только для анализа данных и для запуска обучения в облаке (клонируют репозиторий и вызывают скрипт).
-- Основная работа в **VS Code** на своём компьютере, коммиты оттуда в GitHub. Подготовка данных, токенизатор и бейзлайн (недели 1–2) идут на обычном CPU.
+- **PyTorch**. Вся работа идёт в **Google Colab**: один самодостаточный ноутбук на неделю (`notebooks/weekN_*.ipynb`), без отдельного пакета и скриптов.
+- Переиспользуемый код (словарь, токенизатор, модели) ноутбук записывает через `%%writefile` в `MyDrive/ai-music-gen/code/`, следующие недели импортируют его оттуда. Ссылки на ноутбуки и папку на Диске — в README.
 - Обучение нейросетей (с недели 3): на своей видеокарте NVIDIA, если она есть, иначе **Google Colab** (T4) или **Kaggle Notebooks** (30 ч GPU в неделю, сессии стабильнее). Чекпоинты сохраняем на Google Drive, в git не кладём.
 - Логи: CSV + графики matplotlib (без внешних сервисов), по желанию TensorBoard.
 - Фиксируем seed, сохраняем конфиг каждого запуска рядом с его метриками, чтобы любой эксперимент можно было воспроизвести.
@@ -83,30 +83,24 @@
 
 ---
 
-## 2. Структура репозитория
+## 2. Структура
 
 ```
-ai-music-gen/
-├── README.md            # о проекте, как запустить, итоговые результаты
+GitHub: ai-music-gen/
+├── README.md            # о проекте, ссылки на ноутбуки и Диск, итоговые результаты
 ├── JOURNAL.md           # журнал по неделям
-├── requirements.txt
-├── configs/             # lstm.yaml, gru.yaml, transformer.yaml
-├── src/musicgen/
-│   ├── data/            # загрузка, tokenizer.py, dataset.py, augment.py
-│   ├── models/          # ngram.py, rnn.py (LSTM/GRU + своя ячейка), transformer.py
-│   ├── train.py
-│   ├── generate.py      # sampling: temperature, top-k, top-p, праймер
-│   └── metrics.py
-├── scripts/             # prepare_data.py, train.py, generate.py, evaluate.py
-├── notebooks/           # 01_eda.ipynb, colab_train.ipynb
-├── experiments/
-│   ├── results.csv      # одна строка на запуск: конфиг + метрики
-│   └── runs/<имя>/      # config, loss.csv, графики (без чекпоинтов)
-├── samples/week_N/      # MIDI-примеры для демонстрации
-└── tests/               # тест токенизатора (round-trip) и др.
+├── PLAN.md
+└── notebooks/           # week1_data_tokenizer.ipynb, week2_..., по одному на неделю
+
+Google Диск: MyDrive/ai-music-gen/
+├── code/                # vocab.py, remi.py, adl.py, позже модели — пишутся из ноутбуков
+├── data/                # архив датасета, pieces.csv, токены .npy, разбиение
+├── checkpoints/         # веса моделей
+├── experiments/         # results.csv, логи и графики запусков
+└── samples/week_N/      # MIDI-примеры
 ```
 
-Данные и чекпоинты в `.gitignore`.
+Данные, чекпоинты и примеры живут только на Диске, в git — ноутбуки с выводами и документы.
 
 ---
 
